@@ -1,0 +1,126 @@
+{
+  "name": "imscp/imscp-frontend",
+  "description": "i-MSCP frontEnd",
+  "type": "project",
+  "keywords": [
+    "i-MSCP",
+    "frontend",
+    "PHP"
+  ],
+  "homepage": "https://wwww.i-mscp.net/",
+  "license": "LGPL-2.1-only",
+  "authors": [
+    {
+      "name": "Laurent Declercq",
+      "email": "l.declercq@nuxwin.com",
+      "homepage": "https://www.i-mscp.net/"
+    }
+  ],
+  "support": {
+    "issues": "https://youtrack.i-mscp.net/issues",
+    "source": "https://github.com/i-MSCP/imscp",
+    "forum": "https://wwww.i-mscp.net/"
+  },
+  "config": {
+    "sort-packages": true,
+    "discard-changes": true,
+    "htaccess-protect": false,
+    "optimize-autoloader": true,
+    "apcu-autoloader": true,
+    "classmap-authoritative": false,
+    "preferred-install": "dist",
+    "process-timeout": 5000,
+    "use-include-path": false
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.3 <7.4",
+    "ext-apc": "*",
+    "ext-apcu": "*",
+    "ext-bz2": "*",
+    "ext-ctype": "*",
+    "ext-curl": "*",
+    "ext-date": "*",
+    "ext-dom": "*",
+    "ext-fileinfo": "*",
+    "ext-ftp": "*",
+    "ext-gd": "*",
+    "ext-gettext": "*",
+    "ext-gmp": "*",
+    "ext-iconv": "*",
+    "ext-imap": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "ext-pcre": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "ext-phar": "*",
+    "ext-posix": "*",
+    "ext-pspell": "*",
+    "ext-reflection": "*",
+    "ext-session": "*",
+    "ext-simplexml": "*",
+    "ext-sockets": "*",
+    "ext-sodium": "*",
+    "ext-spl": "*",
+    "ext-xml": "*",
+    "ext-xmlreader": "*",
+    "ext-xmlwriter": "*",
+    "ext-zip": "*",
+    "ext-zlib": "*",
+    "algo26-matthias/idna-convert": "~2.1.0",
+    "cweagans/composer-patches": "~1.6.6",
+    "imscp/composer-installers": "^1.0",
+    "league/flysystem": "^1.0",
+    "pear/net_dns2": "~1.4.4",
+    "phpseclib/phpseclib": "~2.0.20",
+    "slim/slim": "^3.12",
+    "zendframework/zend-escaper": "^2.6",
+    "zendframework/zendframework1": "1.12.20"
+  },
+  "autoload": {
+    "psr-4": {
+      "iMSCP\\Plugin\\": "plugins/",
+      "iMSCP\\": "src/"
+    },
+    "files": [
+      "include/BcAutoload.php",
+      "include/Admin.php",
+      "include/Client.php",
+      "include/Counting.php",
+      "include/Email.php",
+      "include/Input.php",
+      "include/Intl.php",
+      "include/Layout.php",
+      "include/Login.php",
+      "include/Reseller.php",
+      "include/Shared.php",
+      "include/Statistics.php",
+      "include/View.php"
+    ]
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/{$vendor}/{$name}": [
+        "imscp/monsta-ftp",
+        "imscp/phpmyadmin",
+        "imscp/rainloop",
+        "imscp/roundcube"
+      ]
+    },
+    "composer-exit-on-patch-failure": true,
+    "patches": {
+      "zendframework/zendframework1": {
+        "Patch for PHP deprecations (Zend Framework 1)": "patches/001_php_deprecations.patch",
+        "Patch for Zend_Form component (docblock fix)": "patches/002_zend_form_docblock_fix.patch",
+        "Patch for Zend_Navigation component (isActive() implementation for URI page)": "patches/003_zend_navigation_patch",
+        "Patch for Zend_Validate_File_Upload validator (count() fix)": "patches/004_zend_validate_file_upload.patch",
+        "Patch for Zend_Validate_File_Count validator (count() fix)": "patches/005_zend_validate_file_count.patch"
+      }
+    }
+  }
+}

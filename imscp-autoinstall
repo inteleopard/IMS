@@ -1,0 +1,86 @@
+#!/usr/bin/perl
+
+=head1 NAME
+
+ iMSCP::Debug - Debug library
+
+=cut
+
+# i-MSCP - internet Multi Server Control Panel
+# Copyright (C) 2010-2019 by Laurent Declercq <l.declercq@nuxwin.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+=head1 NAME
+
+ imscp-autoinstall Install/Update/Reconfigure i-MSCP
+
+=head1 SYNOPSIS
+
+ imscp-autoinstall [OPTION]...
+
+=cut
+
+use strict;
+use warnings;
+use FindBin;
+use lib $FindBin::Bin, "$FindBin::Bin/engine/PerlLib", "$FindBin::Bin/engine/PerlVendor";
+use autoinstaller::Functions qw/ loadConfig install /;
+use File::Basename 'basename';
+use iMSCP::Boolean;
+use iMSCP::Debug qw/ newDebug output setDebug setVerbose /;
+use iMSCP::Requirements;
+use iMSCP::Dialog;
+use iMSCP::Getopt;
+use POSIX 'locale_h';
+
+@{ENV}{qw/ LANG PATH IMSCP_SETUP /} = (
+    'C.UTF-8',
+    '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    TRUE
+);
+delete $ENV{'LANGUAGE'};
+setlocale( LC_MESSAGES, 'C.UTF-8' );
+
+system( 'clear' );
+
+iMSCP::Requirements->new()->user();
+
+newDebug( 'imscp-autoinstall.log' );
+
+{
+    no warnings 'once';
+    $::execmode = 'setup';
+    %::questions = ();
+}
+
+iMSCP::Getopt->parse( sprintf( 'Usage: perl %s [OPTION]...', basename( $0 )) . qq{
+ -s,    --skip-dist-packages    Do not install distribution packages.},
+    '--skip-dist-packages|s' => \&iMSCP::Getopt::skipDistPackages
+);
+
+setDebug( iMSCP::Getopt->debug );
+setVerbose( iMSCP::Getopt->noprompt && iMSCP::Getopt->verbose );
+loadConfig();
+exit install();
+
+=head1 AUTHOR
+
+ Laurent Declercq <l.declercq@nuxwin.com>
+
+=cut
+
+1;
+__END__
